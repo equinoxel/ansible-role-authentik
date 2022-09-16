@@ -2,7 +2,7 @@
 version: '3.4'
 
 services:
-  postgresql-authentik:
+  postgresql:
     image: docker.io/library/postgres:12-alpine
     restart: unless-stopped
     healthcheck:
@@ -19,9 +19,7 @@ services:
       - POSTGRES_DB={{ authentik_db }}
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
-    networks:
-      - authentik
-  redis-authentik:
+  redis:
     image: docker.io/library/redis:alpine
     command: --save 60 1 --loglevel warning
     restart: unless-stopped
@@ -33,15 +31,18 @@ services:
       timeout: 3s
     volumes:
       - {{ authentik_volume_redis }}:/data
-    networks:
-      - authentik
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   server:
     image: ghcr.io/goauthentik/server:{{ authentik_image_version }}
     restart: unless-stopped
     command: server
     environment:
-      AUTHENTIK_REDIS__HOST: redis-authentik
-      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
       AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_db }}"
       AUTHENTIK_POSTGRESQL__USER: "{{ authentik_db_user }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_db_password }}"
@@ -56,15 +57,13 @@ services:
     ports:
       - "0.0.0.0:{{ authentik_port_http }}:9000"
       - "0.0.0.0:{{ authentik_port_https }}:9443"
-    networks:
-      - authentik
   worker:
     image: ghcr.io/goauthentik/server:{{ authentik_image_version }}
     restart: unless-stopped
     command: worker
     environment:
-      AUTHENTIK_REDIS__HOST: redis-authentik
-      AUTHENTIK_POSTGRESQL__HOST: postgresql-authentik
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
       AUTHENTIK_POSTGRESQL__NAME: "{{ authentik_db }}"
       AUTHENTIK_POSTGRESQL__USER: "{{ authentik_db_user }}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_db_password }}"
@@ -85,13 +84,5 @@ services:
     image: "maxmindinc/geoipupdate:latest"
     volumes:
       - "{{ authentik_volume_geoip }}:/usr/share/GeoIP"
-    environment:
-      GEOIPUPDATE_EDITION_IDS: "GeoLite2-City"
-      GEOIPUPDATE_FREQUENCY: "8"
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
-    networks:
-      - authentik
-
-networks:
-    authentik: {}

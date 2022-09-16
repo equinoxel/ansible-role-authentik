@@ -11,9 +11,11 @@ authentik_error_reporting: "false"
 
 # Because of a PostgreSQL limitation, only passwords up to 99 chars are supported
 # See https://www.postgresql.org/message-id/09512C4F-8CB9-4021-B455-EF4C4F0D55A0@amazon.com
+authentik_db_host: "postgresql"
 authentik_db: "authentik"
 authentik_db_user: "authentik"
 authentik_db_password: "changeme"
+authentik_db_port: "5432"
 
 # SMTP configuration
 #
@@ -57,3 +59,9 @@ authentik_volume_templates: "{{ authentik_volume_base }}/templates"
 authentik_volume_db: "{{ authentik_volume_base }}/db"
 # redis
 authentik_volume_redis: "{{ authentik_volume_base }}/redis"
+
+# geoip credentials
+geoip_account_id:
+geoip_license_key: 
+geoip_update_edition_ids: "GeoLite2-City GeoLite2-Country"
+geoip_update_frequency: "8"

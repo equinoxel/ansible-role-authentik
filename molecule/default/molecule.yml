@@ -5,8 +5,8 @@ dependency:
   options:
     ignore-certs: true
     ignore-errors: true
-    role-file: molecule/default/requirements.yml
-    requirements-file: molecule/default/requirements.yml
+    role-file: molecule/requirements.yml
+    requirements-file: molecule/requirements.yml
 driver:
   name: docker
 platforms:
@@ -15,7 +15,7 @@ platforms:
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /var/run/docker.sock:/tmp/docker.sock
+      - /var/run/docker.sock:/tmp/docker_mounted.sock
     privileged: true
     pre_build_image: true
 provisioner:

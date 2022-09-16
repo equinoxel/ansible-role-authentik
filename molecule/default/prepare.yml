@@ -1,5 +1,5 @@
 ---
-- name: Setup the intragate machine
+- name: Setup the test machine
   hosts: instance-authentik
   tasks:
     - name: create docker.sock
@@ -7,6 +7,6 @@
       become: true
       changed_when: false
     - name: move docker.sock from tmp
-      raw: mount --move /tmp/docker.sock /var/run/docker.sock
+      raw: mount --move /tmp/docker_mounted.sock /var/run/docker.sock
       become: true
       changed_when: false
