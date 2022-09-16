@@ -31,11 +31,6 @@ services:
       timeout: 3s
     volumes:
       - {{ authentik_volume_redis }}:/data
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
   server:
     image: ghcr.io/goauthentik/server:{{ authentik_image_version }}
     restart: unless-stopped
