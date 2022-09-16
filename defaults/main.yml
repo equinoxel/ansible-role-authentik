@@ -1,2 +1,59 @@
 ---
 # defaults file for authentik
+
+authentik_container_name: "authentik"
+authentik_image_version: "2022.8.2"
+
+# Don't forget to change the secret key!
+#
+authentik_secret_key: "changeme"
+authentik_error_reporting: "false"
+
+# Because of a PostgreSQL limitation, only passwords up to 99 chars are supported
+# See https://www.postgresql.org/message-id/09512C4F-8CB9-4021-B455-EF4C4F0D55A0@amazon.com
+authentik_db: "authentik"
+authentik_db_user: "authentik"
+authentik_db_password: "changeme"
+
+# SMTP configuration
+#
+# SMTP Host Emails are sent to
+authentik_email_host: "localhost"
+authentik_email_port: "25"
+# Optionally authenticate (don't add quotation marks to you password)
+authentik_email_username:
+authentik_email_password:
+# Use StartTLS
+authentik_email_use_tls: "false"
+# Use SSL
+authentik_email_use_ssl: "false"
+authentik_email_timeout: "10"
+# Email address authentik will send from, should have a correct @domain
+authentik_email_from: "authentik@localhost"
+
+# Allow the DB to be located somewhere else
+#
+authentik_authentik_geoip: "/geoip/GeoLite2-City.mmdb"
+
+# Authentik ports (ports mapped from docker)
+authentik_port_http: 80
+authentik_port_https: 443
+
+# Authentik volumes
+#
+# base path to be used by others as default
+authentik_volume_base: "/mnt/authentik"
+# media
+authentik_volume_config: "{{ authentik_volume_base }}/config"
+# media
+authentik_volume_media: "{{ authentik_volume_base }}/media"
+# certs for https
+authentik_volume_certs: "{{ authentik_volume_base }}/certs"
+# geoip db location
+authentik_volume_geoip: "{{ authentik_volume_base }}/geoip"
+# custom templates
+authentik_volume_templates: "{{ authentik_volume_base }}/templates"
+# db
+authentik_volume_db: "{{ authentik_volume_base }}/db"
+# redis
+authentik_volume_redis: "{{ authentik_volume_base }}/redis"

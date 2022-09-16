@@ -1,2 +1,42 @@
 ---
 # tasks file for authentik
+
+- name: Set up directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0755
+  with_items:
+    - "{{ authentik_volume_media }}"
+    - "{{ authentik_volume_certs }}"
+    - "{{ authentik_volume_geoip }}"
+    - "{{ authentik_volume_templates }}"
+    - "{{ authentik_volume_db }}"
+    - "{{ authentik_volume_config }}"
+    - "{{ authentik_volume_redis }}"
+    - "~/authentik"
+  tags:
+    - configuration
+  become: false
+
+- name: Copy Authentik docker-compose template.
+  ansible.builtin.template:
+    src: templates/docker-compose.yml.j2
+    dest: ~/authentik/docker-compose.yml
+    mode: '0640'
+  become: false
+  notify: Restart authentik
+
+- name: Copy Authentik configuration.
+  ansible.builtin.template:
+    src: templates/env.authentik.conf.j2
+    dest: "{{ authentik_volume_config }}/env.authentik.conf"
+    mode: '0640'
+  become: false
+  notify: Restart authentik
+
+- name: Ensure Authentik is running.
+  community.docker.docker_compose:
+    project_src: ~/authentik/
+    build: false
+  become: false

@@ -1,2 +1,9 @@
 ---
 # handlers file for authentik
+
+- name: Restart authentik
+  community.docker.docker_compose:
+    project_src: ~/authentik/
+    build: false
+    restarted: true
+  become: false
