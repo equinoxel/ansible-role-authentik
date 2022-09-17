@@ -75,9 +75,11 @@ services:
       - {{ authentik_volume_geoip }}:/geoip
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
+{% if authentik_geoip_container %}
   geoipupdate:
     image: "maxmindinc/geoipupdate:latest"
     volumes:
       - "{{ authentik_volume_geoip }}:/usr/share/GeoIP"
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
+{% endif %}

@@ -61,6 +61,7 @@ authentik_volume_db: "{{ authentik_volume_base }}/db"
 authentik_volume_redis: "{{ authentik_volume_base }}/redis"
 
 # geoip credentials
+authentik_geoip_container: true
 geoip_account_id:
 geoip_license_key: 
 geoip_update_edition_ids: "GeoLite2-City GeoLite2-Country"

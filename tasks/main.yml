@@ -11,10 +11,21 @@
     - "{{ authentik_volume_certs }}"
     - "{{ authentik_volume_geoip }}"
     - "{{ authentik_volume_templates }}"
-    - "{{ authentik_volume_db }}"
     - "{{ authentik_volume_config }}"
     - "{{ authentik_volume_redis }}"
     - "~/authentik"
+  tags:
+    - configuration
+  become: false
+
+- name: Set up the database directory.
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: 0755
+    owner: 70
+  with_items:
+    - "{{ authentik_volume_db }}"
   tags:
     - configuration
   become: false
