@@ -13,6 +13,8 @@ services:
       timeout: 5s
     volumes:
       - {{ authentik_volume_db }}:/var/lib/postgresql/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - POSTGRES_PASSWORD={{ authentik_db_password }}
       - POSTGRES_USER={{ authentik_db_user }}
@@ -31,6 +33,8 @@ services:
       timeout: 3s
     volumes:
       - {{ authentik_volume_redis }}:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
   server:
     image: ghcr.io/goauthentik/server:{{ authentik_image_version }}
     restart: unless-stopped
@@ -47,6 +51,8 @@ services:
       - {{ authentik_volume_media }}:/media
       - {{ authentik_volume_templates }}:/templates
       - {{ authentik_volume_geoip }}:/geoip
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
     ports:
@@ -73,6 +79,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - {{ authentik_volume_templates }}:/templates
       - {{ authentik_volume_geoip }}:/geoip
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
 {% if authentik_geoip_container %}
@@ -80,6 +88,8 @@ services:
     image: "maxmindinc/geoipupdate:latest"
     volumes:
       - "{{ authentik_volume_geoip }}:/usr/share/GeoIP"
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
 {% endif %}
