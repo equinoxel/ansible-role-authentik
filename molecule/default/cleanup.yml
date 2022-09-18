@@ -1,0 +1,19 @@
+---
+- name: Clean up
+  hosts: all
+  tasks:
+    - name: Check if the docker-compose file exists.
+      ansible.builtin.stat:
+        path: "~/authentik/docker-compose.yml"
+      register: docker_compose_file
+    - name: Remove authentik docker-compose.
+      community.docker.docker_compose:
+        project_src: ~/authentik/
+        build: false
+        state: absent
+      when: docker_compose_file.stat.exists
+      become: false
+    - name: Remove the docker-compose file
+      ansible.builtin.file:
+        path: "~/authentik/docker-compose.yml"
+        state: absent

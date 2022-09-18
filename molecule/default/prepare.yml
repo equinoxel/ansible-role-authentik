@@ -1,6 +1,6 @@
 ---
 - name: Setup the test machine
-  hosts: instance-authentik
+  hosts: all
   tasks:
     - name: create docker.sock
       raw: touch /var/run/docker.sock

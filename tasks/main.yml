@@ -2,7 +2,7 @@
 # tasks file for authentik
 
 - name: Set up directories
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: 0755
@@ -19,7 +19,7 @@
   become: false
 
 - name: Set up the database directory.
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
     mode: 0755
