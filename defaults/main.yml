@@ -1,7 +1,6 @@
 ---
 # defaults file for authentik
 
-authentik_container_name: "authentik"
 authentik_image_version: "2022.8.2"
 
 # Don't forget to change the secret key!
