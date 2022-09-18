@@ -3,7 +3,7 @@ galaxy_info:
   namespace: laurivan
   role_name: authentik
   description: Authentik installation via docker
-  license: license (BSD, MIT)
+  license: MIT
 
   min_ansible_version: "2.4"
   min_ansible_container_version: "2.4"
