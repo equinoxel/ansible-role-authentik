@@ -2,4 +2,4 @@
 roles:
   - geerlingguy.docker
 collections:
-  - community.docker
+  # - community.docker

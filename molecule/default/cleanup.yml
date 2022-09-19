@@ -1,6 +1,7 @@
 ---
 - name: Clean up
   hosts: all
+  gather_facts: true
   tasks:
     - name: Check if the docker-compose file exists.
       ansible.builtin.stat:

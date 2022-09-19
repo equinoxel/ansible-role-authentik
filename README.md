@@ -80,7 +80,9 @@ authentik_db_password: "changeme"
 authentik_db_port: "5432"
 ```
 
-Because of a PostgreSQL limitation, only passwords up to 99 chars are supported. See [this link](https://www.postgresql.org/message-id/09512C4F-8CB9-4021-B455-EF4C4F0D55A0@amazon.com) for details.
+You can expose PostgreSQL to the outside world (e.g. for backup) by defining `authentik_db_container_public_port` to a valid port number.
+
+**Note**:Because of a PostgreSQL limitation, only passwords up to 99 chars are supported. See [this link](https://www.postgresql.org/message-id/09512C4F-8CB9-4021-B455-EF4C4F0D55A0@amazon.com) for details.
 
 ### SMTP configuration
 

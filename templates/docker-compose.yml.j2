@@ -11,6 +11,12 @@ services:
       interval: 30s
       retries: 5
       timeout: 5s
+{% if authentik_db_container_public_port %}
+    ports:
+      - "{{ authentik_db_container_public_port }}:5432"
+{% endif %}
+    networks:
+      - authentik
     volumes:
       - {{ authentik_volume_db }}:/var/lib/postgresql/data
       - /etc/timezone:/etc/timezone:ro
@@ -31,6 +37,8 @@ services:
       interval: 30s
       retries: 5
       timeout: 3s
+    networks:
+      - authentik
     volumes:
       - {{ authentik_volume_redis }}:/data
       - /etc/timezone:/etc/timezone:ro
@@ -47,6 +55,8 @@ services:
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{ authentik_db_password }}"
       # AUTHENTIK_ERROR_REPORTING__ENABLED: "true"
       # WORKERS: 2
+    networks:
+      - authentik
     volumes:
       - {{ authentik_volume_media }}:/media
       - {{ authentik_volume_templates }}:/templates
@@ -73,6 +83,8 @@ services:
     # - The permissions for the /media folders aren't fixed, so make sure they are 1000:1000
     # - The docker socket can't be accessed anymore
     user: root
+    networks:
+      - authentik
     volumes:
       - {{ authentik_volume_media }}:/media
       - {{ authentik_volume_certs }}:/certs
@@ -93,3 +105,7 @@ services:
     env_file:
       - {{ authentik_volume_config }}/env.authentik.conf
 {% endif %}
+# Custom network
+networks:
+  authentik:
+    name: authentik
