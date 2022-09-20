@@ -1,5 +1,4 @@
 ---
 roles:
   - geerlingguy.docker
-collections:
-  # - community.docker
+collections: []
