@@ -6,6 +6,7 @@
     state: directory
     path: "{{ item }}"
     mode: 0755
+    owner: "{{ ansible_user_id }}"
   with_items:
     - "{{ authentik_volume_media }}"
     - "{{ authentik_volume_certs }}"
