@@ -10,7 +10,7 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: instance
+  - name: instance-authentik
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos8}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
